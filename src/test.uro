@@ -1,0 +1,44 @@
+## copy - creates a deep copy of a dictionary
+copy = fn (obj) {
+    new_obj = {};
+
+    # `for` gives keys of a dictionary or characters from a string
+    for key in obj {
+        new_obj[key] = obj[key];
+    };
+
+    return new_obj;
+};
+
+## new - Initializes an object
+new = fn (class, kwargs) {
+    obj = copy(class);
+    obj['_init'](obj, kwargs);
+    return obj;
+};
+
+## if - Executes a function if a condition is True
+if = fn (cond, func) {
+    a = { True: func };
+    return a[cond]();
+};
+
+## Person - A Person does this and that
+# :params:
+#   name - The name of the person
+Person = {
+    '_init': fn (self, kwargs) {
+        self['name'] = kwargs['name'];
+        self['species'] = 'Human';
+    },
+    'greet': fn (self) {
+        printf("Hi, fellow {a}! I'm {b}!\n", {a: self['species'], b: self['name']});
+    },
+};
+
+
+bob = new(Person, 'Bob');
+
+if (bob['species'] == 'Human', fn () {
+    bob['greet'](bob);  # => 'Hi, fellow Human! I'm Bob!\n'
+});
