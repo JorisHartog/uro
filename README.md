@@ -31,7 +31,7 @@ The development of this language will be in stages:
 |---------|---------|------|-------------------------------------------|----------|
 | ⌛      | 0.1.0   | uro0 | A compiler for the bare-minimum language. | Python   |
 | 🛑      | < 1.0.0 | std  | A standard library.                       | Uro0     |
-| 🛑      | 1.0.0   | uro  | The self-hosted interpreter.              | Uro0     |
+| 🛑      | 1.0.0   | uro  | The self-hosted compiler.                 | Uro0     |
 | 🛑      | > 1.0.0 | uro  | New language features.                    | Uro      |
 
 | Icon | Meaning        |
@@ -87,7 +87,7 @@ Person = {
 };
 
 
-bob = new(Person, 'Bob');
+bob = new(Person, {'name': 'Bob'});
 
 if (bob['species'] == 'Human', fn () {
     bob['greet'](bob);  # => 'Hi, fellow Human! I'm Bob!\n'
