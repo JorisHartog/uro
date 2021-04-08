@@ -27,22 +27,18 @@ standard library.
 
 The development of this language will be in stages:
 
-|---------|---------|------|-------------------------------------------|----------|
 | Reached | Version | Name | Description                               | Language |
 |---------|---------|------|-------------------------------------------|----------|
 | ⌛      | 0.1.0   | uro0 | A compiler for the bare-minimum language. | Python   |
 | 🛑      | < 1.0.0 | std  | A standard library.                       | Uro0     |
 | 🛑      | 1.0.0   | uro  | The self-hosted interpreter.              | Uro0     |
 | 🛑      | > 1.0.0 | uro  | New language features.                    | Uro      |
-|---------|---------|------|-------------------------------------------|----------|
 
-|------|----------------|
 | Icon | Meaning        |
 |------|----------------|
 | 🛑   | Hasn't started |
 | ⌛   | In progress    |
 | ✅   | Done           |
-|------|----------------|
 
 
 ## Example syntax
