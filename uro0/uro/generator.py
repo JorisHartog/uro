@@ -90,7 +90,9 @@ class _Generator:
         self._functions = {
             self._global: [("", "mov", "rbp, rsp")],
             "exit": [
-                ("", "mov", "rax, 60"), ("", "mov", "rdi, [rsp+8]"), ("", "syscall", "")
+                ("", "mov", "rax, 60"),
+                ("", "mov", "rdi, [rsp+8]"),
+                ("", "syscall", ""),
             ],
         }
         self._data = {}
@@ -120,6 +122,7 @@ class _Generator:
     @property
     def asm(self):
         """Format the assembly code."""
+
         def _format_line(left, middle, right):
             return f"{left:10s} {middle:10s} {right:10s}\n"
 
@@ -210,9 +213,7 @@ class GeneratorX86_64Linux(_Generator):
 
         label = self._next_label("f")
         self._extern.append(name)
-        self._functions[self._context.name].append(
-            ("", "mov", f"rax, {label}")
-        )
+        self._functions[self._context.name].append(("", "mov", f"rax, {label}"))
         self._functions[self._context.name].append(("", "push", "rax"))
 
         self._functions[label] = [("", "push", "rbp")]
@@ -228,21 +229,13 @@ class GeneratorX86_64Linux(_Generator):
         self._functions[label].append(("", "mov", "rbp, rsp"))
 
         if param_len > 0:
-            self._functions[label].append(
-                ("", "mov", f"rdi, [rbp+{16+8*param_len}]")
-            )
+            self._functions[label].append(("", "mov", f"rdi, [rbp+{16+8*param_len}]"))
         if param_len > 1:
-            self._functions[label].append(
-                ("", "mov", f"rsi, [rbp+{24+8*param_len}]")
-            )
+            self._functions[label].append(("", "mov", f"rsi, [rbp+{24+8*param_len}]"))
         if param_len > 2:
-            self._functions[label].append(
-                ("", "mov", f"rdx, [rbp+{32+8*param_len}]")
-            )
+            self._functions[label].append(("", "mov", f"rdx, [rbp+{32+8*param_len}]"))
         if param_len > 3:
-            self._functions[label].append(
-                ("", "mov", f"rcx, [rbp+{40+8*param_len}]")
-            )
+            self._functions[label].append(("", "mov", f"rcx, [rbp+{40+8*param_len}]"))
 
         self._functions[label].append(("", "call", name))
         self._functions[label].append(("", "mov", "rsp, rbp"))
@@ -287,7 +280,7 @@ class GeneratorX86_64Linux(_Generator):
         start_label = self._next_label("l")
         end_label = self._next_label("e")
 
-        self._data[string_label] = ("", "db", f"\"{value}\", 0")
+        self._data[string_label] = ("", "db", f'"{value}", 0')
 
         self._functions[self._context.name].append(("", "mov", f"rdi, {string_label}"))
         self._functions[self._context.name].append(("", "mov", f"rcx, {string_length}"))
