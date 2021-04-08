@@ -114,6 +114,7 @@ class _Generator:
             IR_SET_NAME: self.set_name,
             IR_CALL_FUNCTION: self.call_function,
             IR_MAKE_STRING: self.make_string,
+            IR_PUSH_REFERENCE: self.push_reference,
         }
         for instr, args in ir:
             if instr != IR_NOP:
@@ -296,7 +297,19 @@ class GeneratorX86_64Linux(_Generator):
         self._functions[self._context.name].append(("", "je", end_label))
         self._functions[self._context.name].append(("", "jmp", start_label))
         self._functions[self._context.name].append((f"{end_label}:", "", ""))
+        self._context.move_stack_pointer()
 
     def make_number(self, value):
         """Creates an integer object and pushes it to the stack."""
         self._functions[self._context.name].append(("", "push", str(value)))
+        self._context.move_stack_pointer()
+
+    def push_reference(self, name):
+        """Pushes a given pointer to the stack."""
+        position = self._context.get_position(name)
+        assert position <= 0
+        self._functions[self._context.name].append(
+            ("", "mov", f"rax, [rbp-{-position}]")
+        )
+        self._functions[self._context.name].append(("", "push", "rax"))
+        self._context.move_stack_pointer()

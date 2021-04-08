@@ -100,7 +100,7 @@ class IRGenerator:
     def _generate_number_literal(self, node):
         logging.debug("%s", node)
         number = int(node.content.value)
-        ir_number = (IR_MAKE_NUMBER, number)
+        ir_number = (IR_MAKE_NUMBER, (number,))
         return [ir_number]
 
     def _generate_boolean(self, node):
