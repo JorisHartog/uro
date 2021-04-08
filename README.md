@@ -44,7 +44,7 @@ The development of this language will be in stages:
 ## Example syntax
 
 ```uro
-from std import new, printf, if
+import std
 
 # The standard library could contain functions like `new`, which act as OOP helpers:
 #
@@ -92,13 +92,4 @@ bob = new(Person, 'Bob');
 if (bob['species'] == 'Human', fn () {
     bob['greet'](bob);  # => 'Hi, fellow Human! I'm Bob!\n'
 });
-
-# Inline ASM is also possible
-open = fn(filename, flags, mode) {
-    asm("pop rdx");   # int mode
-    asm("pop rsi");   # int flags
-    asm("pop rdi");   # const char *filename
-    asm("mov rax,2"); # sys_open
-    asm("syscall");   # rax contains file descriptor
-};
 ```
