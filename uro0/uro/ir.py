@@ -50,7 +50,8 @@ class IRGenerator:
             return self._generate_assignment(statement)
         elif statement == NODE_FUNCTION_CALL:
             return self._generate_function_call(statement)
-        raise NotImplementedError
+        else:
+            return self._generate_expression(statement)
 
     def _generate_assignment(self, node):
         logging.debug("%s", node)
@@ -106,7 +107,7 @@ class IRGenerator:
     def _generate_boolean(self, node):
         logging.debug("%s", node)
         boolean = node.content.value == "True"
-        ir_boolean = (IR_MAKE_BOOLEAN, boolean)
+        ir_boolean = (IR_MAKE_BOOLEAN, (boolean,))
         return [ir_boolean]
 
     def _generate_function(self, node):

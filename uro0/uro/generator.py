@@ -93,6 +93,7 @@ class _Generator:
             IR_CALL_FUNCTION: self.call_function,
             IR_MAKE_STRING: self.make_string,
             IR_PUSH_REFERENCE: self.push_reference,
+            IR_MAKE_BOOLEAN: self.make_boolean,
         }
         for instr, args in ir:
             if instr != IR_NOP:
@@ -121,7 +122,7 @@ class _Generator:
         """Creates an integer object and pushes it to the stack."""
         raise NotImplementedError("Please create a concrete implementation")
 
-    def make_boolean(self, value):
+    def make_boolean(self, boolean):
         """Creates a boolean object and pushes a pointer to it to the stack."""
         raise NotImplementedError("Please create a concrete implementation")
 
@@ -312,4 +313,10 @@ class GeneratorX86_64Linux(_Generator):
             ("", "mov", f"rax, [rbp-{-position}]")
         )
         self._functions[self._context.name].append(("", "push", "rax"))
+        self._context.move_stack_pointer()
+
+    def make_boolean(self, boolean):
+        """Creates a boolean object and pushes a pointer to it to the stack."""
+        value = "1" if boolean else "0"
+        self._functions[self._context.name].append(("", "push", value))
         self._context.move_stack_pointer()
