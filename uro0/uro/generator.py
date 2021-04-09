@@ -59,9 +59,9 @@ class Context:
         """Adds a variable."""
         self._variables[name] = self._position
 
-    def move_stack_pointer(self):
+    def move_stack_pointer(self, delta=-8):
         """Move the stack pointer over."""
-        self._position -= 8
+        self._position += delta
 
     def get_position(self, name):
         """Returns the position of a given variable."""
@@ -268,6 +268,7 @@ class GeneratorX86_64Linux(_Generator):
         self._functions[self._context.name].append(("", "call", f"[rbp-{-position}]"))
         self._functions[self._context.name].append(("", "add", f"rsp, {8*arg_len}"))
         self._functions[self._context.name].append(("", "push", "rax"))
+        self._context.move_stack_pointer(8*arg_len)
 
     def make_string(self, value):
         """Creates a string object and pushes a pointer to it to the stack."""
